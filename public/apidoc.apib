@@ -1,0 +1,221 @@
+FORMAT: 1A
+HOST: https://stagesockets.propyoda.com
+
+# vAGM Websockets
+
+## Introduction
+Websockets implementation for Voting Module of vAGM Project
+
+# Connection
+
+## Connect [/]
+
+### Connect [POST]
+
+Connection to the websocket requires the following structure
+
+Auth String is a combination of the following strings separated by the identifier **-_-** :
+
+1. Auth_token
+2. Role
+3. AGM Id
+4. AGM Keys Id
+
++ Parameters
+    + auth_string : eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpZCI6MTksImV4cGlyeSI6MTU5NjE0NDA2M30.8L_CkmVbuvRLRvItcA1_e9knBZdxc_2eqNtiweBuJcs-_-sp-_-1-_-9
+
++ Response 200 (application/json)
+    {
+        "message": "Success",
+        "data": null,
+        "code": 200
+    }
+
+
+# Group Resolutions
+
+## getResolutions [/getResolutions]
+Get to list of resolutions for moderators as well as users. This api can be used for both SP/Proxy and Moderator. Response for this can be found in the getResolutionResponse Event.
+
+### getResolution [GET]
+
++ Parameters
+    None
+
++ Response 200 (application/json)
+
+    {"data":{"Pending":[{"resolution_id":2,"resolution_no":"R2395","resolution_heading":"Refurbishing Tennis Court","resolution_text":"Why dont we refurbish tennis court this year?","resolution_proposer":"","resolution_seconder":"","proxy_vote_allowed":1,"decision_made_by":"SP","decision":"1","resolution_type":"Ordinary Resolution","resolution_category":"Management Fund","objection_feasibility":1,"resolution_type_id":6,"pending_dues_vote_allowed":0,"decision_calculation_type":"no_of_lots","decision_at_agm":1,"decision_threshold_percentage":50,"id":5,"total_decision":"Not Finalized","total_votes_received":null,"total_votes_for":null,"total_votes_against":null,"total_votes_abstain":null,"userShares":[{"proxy_status":"No","dues_pending_status":"No","share_value":3,"unit_no":"4-5-5a"}],"proxyShares":[{"decision_made_by":"SP","decision":"1","proxy_status":"Yes","dues_pending_status":"No","share_value":4,"unit_no":"1-1-1"}]},{"resolution_id":3,"resolution_no":"R2396","resolution_heading":"Refurbishing Basketball Court","resolution_text":"Why dont we refurbish basketball court this year?","resolution_proposer":"24-3-21","resolution_seconder":"21-4-20","proxy_vote_allowed":1,"decision_made_by":"Proxy Holder","decision":"","resolution_type":"Ordinary Resolution","resolution_category":"Resolution Proposed by SP","objection_feasibility":1,"resolution_type_id":13,"pending_dues_vote_allowed":0,"decision_calculation_type":"no_of_lots","decision_at_agm":1,"decision_threshold_percentage":50,"id":6,"total_decision":"Not Finalized","total_votes_received":null,"total_votes_for":null,"total_votes_against":null,"total_votes_abstain":null,"userShares":[{"proxy_status":"No","dues_pending_status":"No","share_value":3,"unit_no":"4-5-5a"}],"proxyShares":[{"decision_made_by":"Proxy Holder","decision":"","proxy_status":"Yes","dues_pending_status":"No","share_value":4,"unit_no":"1-1-1"}]},{"resolution_id":4,"resolution_no":"R2397","resolution_heading":"Fixing of Water pipeline for affected lots","resolution_text":"Pipeline damaged last year during monsoon","resolution_proposer":"24-3-21","resolution_seconder":"21-4-20","proxy_vote_allowed":1,"decision_made_by":"Proxy Holder","decision":"","resolution_type":"Special Resolution","resolution_category":"Resolution Proposed by SP","objection_feasibility":0,"resolution_type_id":15,"pending_dues_vote_allowed":0,"decision_calculation_type":"share_value","decision_at_agm":1,"decision_threshold_percentage":75,"id":7,"total_decision":"Not Finalized","total_votes_received":null,"total_votes_for":null,"total_votes_against":null,"total_votes_abstain":null,"userShares":[{"proxy_status":"No","dues_pending_status":"No","share_value":3,"unit_no":"4-5-5a"}],"proxyShares":[{"decision_made_by":"Proxy Holder","decision":"","proxy_status":"Yes","dues_pending_status":"No","share_value":4,"unit_no":"1-1-1"}]},{"resolution_id":5,"resolution_no":"R2398","resolution_heading":"Nominating Council Members","resolution_text":"Nominate council members","resolution_proposer":"","resolution_seconder":"","proxy_vote_allowed":1,"decision_made_by":null,"decision":null,"resolution_type":"Ordinary Resolution","resolution_category":"Nomination of Council Members","objection_feasibility":0,"resolution_type_id":3,"pending_dues_vote_allowed":0,"decision_calculation_type":"no_of_lots","decision_at_agm":1,"decision_threshold_percentage":0,"id":8,"total_decision":"Not Finalized","total_votes_received":null,"total_votes_for":null,"total_votes_against":null,"total_votes_abstain":null,"userShares":[{"proxy_status":"No","dues_pending_status":"No","share_value":3,"unit_no":"4-5-5a"}],"proxyShares":[{"decision_made_by":null,"decision":null,"proxy_status":null,"dues_pending_status":null,"share_value":null,"unit_no":null}]}],"Active":[],"Decided":[]}, "message": "Success", "code": 200}
+
+## updateResolution [/updateResolution]
+Updates Resolution from Pending to Active. Response for this can be found in the updateResolutionResponse Event.
+
+### updateResolution [PUT]
+
++ Request (application/json)
+
+    + Body
+        {
+            resolution_id: 1,
+            action: "Active"
+        }
+
++ Response 200 (application/json)
+    {
+        "data": true,
+        "message": "Success",
+        "code": 200
+    }
+
++ Response 400 (application/json)
+    {
+        "data": false,
+        "message": "Something went wrong, Please try again in some time",
+        "code": 400
+    }
+
+
+# Group Moderator related APIs
+
+##  Start Voting [/startVoting]
+Use this event to start the voting for a resolution. To be used at moderator's end. Response for this event could be found at startVotingResponse
+
+### startVoting [POST]
+
++ Request (application/json)
+
+    + Body
+        {
+            resolution_id: 1
+        }
+
++ Response (200) [application/json]
+    {
+        "data": true,
+        "message": "Success",
+        "code": 200
+    }
+
++ Response 400 (application/json)
+    {
+        "data": false,
+        "message": "Something went wrong, Please try again in some time",
+        "code": 400
+    }
+
+
+##  Start Timer [/startTimer]
+Use this event to start the timer for a resolution. To be used at moderator's end. Response for this event could be found at startTimerResponse. This event would also emit another event resolutionTimer. Check the resolutionTimer section for its details
+
+### startTimer [POST]
+
++ Request (application/json)
+
+    + Body
+        {
+            resolution_id: 1,
+            duration: 60 (to be provided in seconds)
+        }
+
++ Response 200 (application/json)
+    {
+        "data": true,
+        "message": "Success",
+        "code": 200
+    }
+
++ Response 400 (application/json)
+    {
+        "data": false,
+        "message": "Something went wrong, Please try again in some time",
+        "code": 400
+    }
+
+##  Pause Timer [/pauseTimer]
+Use this event to pause the timer for a resolution. To be used at moderator's end. Response for this event could be found at pauseTimerResponse
+
+### pauseTimer [POST]
+
++ Request (application/json)
+
+    + Body
+        {
+            resolution_id: 1
+        }
+
++ Response 200 (application/json)
+    {
+        "data": true,
+        "message": "Success",
+        "code": 200
+    }
+
++ Response 400 (application/json)
+    {
+        "data": false,
+        "message": "Something went wrong, Please try again in some time",
+        "code": 400
+    }
+
+##  Resume Timer [/resumeTimer]
+Use this event to resume the timer for a resolution. To be used at moderator's end. Response for this event could be found at resumeTimerResponse
+
+### resumeTimer [POST]
+
++ Request (application/json)
+
+    + Body
+        {
+            resolution_id: 1,
+            duration: 30
+        }
+
++ Response 200 (application/json)
+    {
+        "data": true,
+        "message": "Success",
+        "code": 200
+    }
+
++ Response 400 (application/json)
+    {
+        "data": false,
+        "message": "Something went wrong, Please try again in some time",
+        "code": 400
+    }
+
+## Resolution Timer [/resolutionTimer]
+Use this event to display the timer for the specific resolution. Response for this event could be found at resolutionTimerResponse
+
+### resolutionTimer [POST]
+
++ Response 200 (application/json)
+    {
+        "data": {
+            "resolution_id": 2,
+            "time": "02:01"
+        },
+        "message": "Success",
+        "code": 200
+    }
+
+## Resolution Stats [/resolutionStats]
+Use this event to display the logged in user statistics. Response for this event could be found at resolutionStatsResponse
+
+### resolutionStats [POST]
+
++ Request (application/json)
+
+    + Body
+        {
+            resolution_id: 1
+        }
+
++ Response 200 (application/json)
+    {
+        "data": {
+            loggedInUnits: 2,
+            loggedInShares: 7
+        },
+        "message": "Success",
+        "code": 200
+    }

@@ -1,0 +1,38 @@
+{
+     "name": "vagm_websocket",
+     "version": "1.0.0",
+     "description": "Websocket module for vAGM",
+     "main": "index.js",
+     "scripts": {
+          "build": "babel src -d lib --copy-files"
+     },
+     "author": "Shehzad Shaikh",
+     "website": "https://www.shehzadshaikh.com",
+     "license": "ISC",
+     "dependencies": {
+          "@babel/runtime": "^7.10.5",
+          "@babel/runtime-corejs3": "^7.10.5",
+          "aws-sdk": "^2.753.0",
+          "core-js": "^3.6.5",
+          "cors": "^2.8.5",
+          "dotenv": "^8.2.0",
+          "express": "^4.17.1",
+          "logger": "0.0.1",
+          "moment-timezone": "^0.5.31",
+          "node-querybuilder": "^2.1.1",
+          "redis": "^3.0.2",
+          "regenerator-runtime": "^0.13.7",
+          "request": "^2.88.2",
+          "simple-node-logger": "^18.12.24",
+          "socket.io": "^2.3.0"
+     },
+     "devDependencies": {
+          "@babel/cli": "^7.11.6",
+          "@babel/core": "^7.11.6",
+          "@babel/plugin-proposal-class-properties": "^7.10.4",
+          "@babel/plugin-transform-runtime": "^7.10.5",
+          "@babel/preset-env": "^7.10.4",
+          "@babel/register": "^7.10.5",
+          "babel-jest": "^26.1.0"
+     }
+}
